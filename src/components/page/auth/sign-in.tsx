@@ -1,8 +1,34 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Helmet } from "react-helmet-async"
+import { toast } from 'sonner'
+import {useForm} from 'react-hook-form';
+import { registry } from "zod/v4/core";
+import {z} from 'zod'
+
+const signInForm = z.object({
+    email: z.string().email(),
+})
+
+type SignInForm = z.infer<typeof signInForm>; //Passando a tipagem do zod para o Typescript
 
 export function SignIn(){
+    const {register, handleSubmit, formState: {isSubmitting}} = useForm<SignInForm>();
+
+    async function handleSignIn(data: SignInForm){
+        try {
+
+            await new Promise(resolver => setTimeout(resolver, 2000));
+            toast.success('Enviamos um link de autenticação para seu e-mail.', { action: {
+                label: 'Reenviar',
+                onClick: () => handleSignIn(data),
+            }});
+        }catch(err){
+            toast.error('Erro na autenticação.');
+    }
+    }
+
     return (
         <>
             <Helmet title="Login" />
@@ -16,13 +42,19 @@ export function SignIn(){
                         Acompanhar suas vendas pelo painel do parceiro!
                     </p>
                     </div>
-                   <form className="space-y-4">
+                   <form className="space-y-4" onSubmit={handleSubmit(handleSignIn)}>
                         <div className="space-y-2">
-                            <label htmlFor="email">Seu e-mail</label>
-                            <Input id="email" type="email" />
+                            <Label htmlFor="email">Seu e-mail</Label>
+                            <Input id="email" type="email" {...register("email")}/>
                         </div>
 
-                        <Button variant="outline" className="w-full" type="submit">Acessar Painel</Button>
+                        <Button 
+                            disabled={isSubmitting}
+                            variant="default" 
+                            className="w-full bg-muted bg-black text-white font-bold hover:bg-black/75" 
+                            type="submit">
+                                Acessar Painel
+                            </Button>
                    </form>
                     
                 </div>

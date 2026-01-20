@@ -1,5 +1,5 @@
 import { RouterProvider } from 'react-router-dom';
-import './global.css';
+import '../src/global.css';
 
 import { routes } from './route';
 import { Helmet, HelmetProvider } from 'react-helmet-async';

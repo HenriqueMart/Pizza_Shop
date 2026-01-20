@@ -22,7 +22,7 @@ export function OrderTableFilters(){
                         side="bottom"
                         sideOffset={4}
                         align="center"
-                        className="z-50 gap-2 p-2 border rounded-md shadow-md bg-white"
+                        className="z-50 gap-2 p-2 border rounded-md shadow-md bg-muted text-muted-foreground"
                     >
                         <SelectItem value="all">Todos Status</SelectItem>
                         <SelectItem value="pending">Pendente</SelectItem>
@@ -36,8 +36,13 @@ export function OrderTableFilters(){
                     <Search className="h-4 w-4 mr-2"/>
                     Filtrar Resultado
                 </Button>
-                <Button type="button" variant="outline" size="xs">
-                    <X className="h-4 w-4 mr-2"/>
+                <Button 
+                    type="button" 
+                    variant="ghost" 
+                    size="xs"
+                    className="text-muted-foreground"
+                    >
+                    <X className="h-4 w-4 mr-2 "/>
                     Remover Filtros
                 </Button>
                    

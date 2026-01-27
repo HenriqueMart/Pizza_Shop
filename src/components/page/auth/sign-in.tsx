@@ -32,8 +32,8 @@ export function SignIn(){
     return (
         <>
             <Helmet title="Login" />
-            <div className="p-8">
-                <Button asChild variant="outline" className="absolute right-8 top-8 bg-black text-white">
+            <div className="p-8 text-foreground">
+                <Button asChild variant="outline" className="absolute right-8 top-8 bg-muted hover:bg-muted-foreground">
                     <Link to="/sign-up">
                         Novo Estabelecimento
                     </Link>
@@ -50,13 +50,13 @@ export function SignIn(){
                    <form className="space-y-4" onSubmit={handleSubmit(handleSignIn)}>
                         <div className="space-y-2">
                             <Label htmlFor="email">Seu e-mail</Label>
-                            <Input id="email" type="email" {...register("email")}/>
+                            <Input id="email" type="email" placeholder="exemplo@gmail.com" {...register("email")}/>
                         </div>
 
                         <Button 
                             disabled={isSubmitting}
                             variant="default" 
-                            className="w-full bg-muted bg-black text-white font-bold hover:bg-black/75" 
+                            className="w-full bg-muted bg-muted text-foreground font-bold hover:bg-muted-foreground" 
                             type="submit">
                                 Acessar Painel
                             </Button>

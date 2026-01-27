@@ -9,11 +9,11 @@ export function Orders(){
         <>
             <Helmet title="Pedidos"/>
             <div className="flex flex-col gap-4">
-                <h1 className="text-3xl font-bold tracking-tight">Pedidos</h1>
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">Pedidos</h1>
             
             <div className="space-y-2.5">
                 <OrderTableFilters />
-                <div className="border rounded-md">
+                <div className="border rounded-md text-foreground">
                     <Table>
                         <TableHeader>
                             <TableRow>

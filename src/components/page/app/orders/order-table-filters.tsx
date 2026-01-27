@@ -8,7 +8,7 @@ import { Search, X } from "lucide-react";
 
 export function OrderTableFilters(){
     return (
-        <form className="flex items-center gap-2">
+        <form className="flex items-center gap-2 text-foreground">
                 <span className="text-sm font-semibold">
                     Filtros: 
                 </span>

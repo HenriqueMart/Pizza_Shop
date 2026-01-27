@@ -38,8 +38,8 @@ export function SignUp(){
     return (
         <>
             <Helmet title="Cadastro" />
-            <div className="p-8">
-                <Button asChild variant="outline" className="absolute right-8 top-8 bg-black text-white">
+            <div className="p-8 text-foreground">
+                <Button asChild variant="outline" className="absolute right-8 top-8 bg-muted text-foreground hover:bg-muted-foreground">
                     <Link to="/sign-in">
                         Fazer Login
                     </Link>
@@ -74,7 +74,7 @@ export function SignUp(){
                         <Button 
                             disabled={isSubmitting}
                             variant="default" 
-                            className="w-full bg-muted bg-black text-white font-bold hover:bg-black/75" 
+                            className="w-full bg-muted  text-foreground font-bold hover:bg-muted-foreground" 
                             type="submit">
                                 Finalizar Cadastro
                         </Button>

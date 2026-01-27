@@ -8,6 +8,6 @@ export function NavLink(props: NavLinkProps) {
     const {pathname} = useLocation(); //Pega a localização atual da aplicação (rota atual)
     return (<Link
         data-current={pathname == props.to}    
-        className="flex items-center gap-1.5 text-sm font-medium text-black/50 hover:text-black data-[current=true]:text-black" {...props}/>
+        className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground data-[current=true]:text-foreground" {...props}/>
 
     )}

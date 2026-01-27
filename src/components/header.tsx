@@ -6,9 +6,9 @@ import { AccountMenu } from "./ui/account-menu";
 
 export function Header() {
   return (
-    <header className="border-b">
-        <div className="flex h-16 items-center gap-6 px-6">
-            <Pizza className="h-6 w-6"/>
+    <header className="border-b dark:bg-black">
+        <div className="flex h-16 items-center gap-6 px-6 ">
+            <Pizza className="h-6 w-6 text-foreground"/>
 
             <Separator orientation="vertical" className="h-6"/>
 
@@ -22,7 +22,7 @@ export function Header() {
                     Pedido
                 </NavLink>
             </nav>
-            <div className="ml-auto flex items-center gap-2">
+            <div className="ml-auto flex items-center gap-2 text-foreground">
                 <ThemeToggle/>
                 <AccountMenu/>
             </div>

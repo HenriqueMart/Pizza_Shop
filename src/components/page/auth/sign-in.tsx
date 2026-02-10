@@ -5,8 +5,10 @@ import { Helmet } from "react-helmet-async"
 import { toast } from 'sonner'
 import {useForm} from 'react-hook-form';
 import { registry } from "zod/v4/core";
-import {Link} from 'react-router-dom';
+import {Link, useSearchParams} from 'react-router-dom';
 import {z} from 'zod';
+import { useMutation } from "@tanstack/react-query";
+import { signIn } from "@/api/sign-in";
 
 const signInForm = z.object({
     email: z.string().email(),
@@ -15,12 +17,31 @@ const signInForm = z.object({
 type SignInForm = z.infer<typeof signInForm>; //Passando a tipagem do zod para o Typescript
 
 export function SignIn(){
-    const {register, handleSubmit, formState: {isSubmitting}} = useForm<SignInForm>();
 
+    const [searchParams] = useSearchParams();
+
+    const {
+        register, 
+        handleSubmit, 
+        formState: {isSubmitting}
+    } = useForm<SignInForm>({
+        defaultValues: {
+           email: searchParams.get('email') ?? '', //Pegando o email e definido como valor padrão caso esteje passando pela URL na query
+        }
+    });
+
+    //Utilizando no react Query, quando e Mutation as requisitições não seja get, o restante é mutation
+    const { mutateAsync: authenticate } = useMutation({
+        mutationFn: signIn,
+    })
+    
     async function handleSignIn(data: SignInForm){
         try {
-            await new Promise(resolver => setTimeout(resolver, 2000));
-            toast.success('Enviamos um link de autenticação para seu e-mail.', { action: {
+           
+            await authenticate({email: data.email})
+
+            toast.success('Enviamos um link de autenticação para seu e-mail.', { 
+                action: {
                 label: 'Reenviar',
                 onClick: () => handleSignIn(data),
             }});
@@ -61,7 +82,6 @@ export function SignIn(){
                                 Acessar Painel
                             </Button>
                    </form>
-                    
                 </div>
             </div>
         </>

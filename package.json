@@ -19,6 +19,7 @@
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "^1.0.2",
     "@tanstack/react-query": "^5.90.20",
+    "add": "^2.0.6",
     "axios": "^1.13.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
@@ -32,9 +33,11 @@
     "react-hook-form": "^7.69.0",
     "react-router-dom": "^7.9.5",
     "recharts": "^3.7.0",
+    "shadcn": "^3.8.5",
     "sonner": "^2.0.7",
     "sort-by": "^1.2.0",
     "tailwind-merge": "^2.0.0",
+    "textarea": "^0.3.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {

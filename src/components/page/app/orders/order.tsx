@@ -9,19 +9,21 @@ import { useSearchParams } from "react-router-dom";
 import z from "zod";
 
 export function Orders(){
-    const [searchParans, setSearchParans] = useSearchParams();
+    const [searchParams, setSearchParans] = useSearchParams();
 
-    
+    const orderId = searchParams.get('orderId')
+    const customerName = searchParams.get('customerName')
+    const status = searchParams.get('status')
     
 
     const pageIndex = z.coerce
     .number()
     .transform((page) => page - 1).
-    parse(searchParans.get('page') ?? '1'); //Em vez de aparecer 0 para o usuário, vai aparecer 1 mas sendo transformado para zero no código.
+    parse(searchParams.get('page') ?? '1'); //Em vez de aparecer 0 para o usuário, vai aparecer 1 mas sendo transformado para zero no código.
 
     const {data: result} = useQuery({
-        queryKey: ['orders', pageIndex], //Para alterar o status com a paginação é necessário colocar no queryKey.
-        queryFn: () => getOrders({pageIndex}),
+        queryKey: ['orders', pageIndex, orderId, customerName, status], //Para alterar o status com a paginação é necessário colocar no queryKey.
+        queryFn: () => getOrders({pageIndex, orderId, customerName, status: status === 'all' ? null: status}),
     })
     
 

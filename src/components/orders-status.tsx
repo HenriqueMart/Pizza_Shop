@@ -1,4 +1,4 @@
-type OrdersStatus = "pending" | "canceled" | "processing" | "delivering" | "delivered";
+export type OrdersStatus = "pending" | "canceled" | "processing" | "delivering" | "delivered";
 
 
 interface OrdersStatusProps {

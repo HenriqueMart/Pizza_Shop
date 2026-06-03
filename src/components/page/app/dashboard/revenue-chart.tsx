@@ -1,40 +1,43 @@
+import { getDailyRevenueInPeriod } from "@/api/get-daily-revenue-in-period";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { DatePickerWithRange } from "@/components/ui/data-range-picker";
+import { Label } from "@/components/ui/label";
+import { useQuery } from "@tanstack/react-query";
 import {ResponsiveContainer, LineChart, XAxis, YAxis, CartesianGrid, Line, Tooltip} from 'recharts'
 import colors from 'tailwindcss/colors'
+import { subDays } from 'date-fns'
+import { useMemo, useState } from "react";
+import type { DateRange } from "react-day-picker";
 
-const data = [
-    {
-        date: '17/10',
-        revenue: 1200
-    },
-    {
-        date: '18/10',
-        revenue: 800
-    },
-    {
-        date: '19/10',
-        revenue: 500
-    },
-    {
-        date: '20/10',
-        revenue: 200
-    },
-    {
-        date: '21/10',
-        revenue: 1500
-    },
-    {
-        date: '22/10',
-        revenue: 900
-    },{
-        date: '23/10',
-        revenue: 400
-    }
 
-]
 
 export function RevenueChart(){
+    const [dateRanger, setDateRanger] = useState<DateRange | undefined>({
+        from: subDays(new Date(), 7),
+        to: new Date(),
+    })
+
+    const { data: dailyRevenueInPeriod } = useQuery({
+        queryKey: ['metrics', 'daily-revenue-in-period', dateRanger],
+        queryFn: () => getDailyRevenueInPeriod({
+            from: dateRanger?.from,
+            to: dateRanger?.to,
+        }),
+
+    })
+
+    const chartDate = useMemo(() => {
+        return dailyRevenueInPeriod?.map(charItem => {
+            return{
+                date: charItem.date,
+                receipt: charItem.receipt / 100,
+            }
+        })
+    }, [dailyRevenueInPeriod])
+
     return(
+        
+
         <Card className="col-span-6">
             <CardHeader className="flex-row items-center justify-between pb-8">
                 <div className="space-y-1">
@@ -45,25 +48,40 @@ export function RevenueChart(){
                         Receita diária no período
                     </CardDescription>
                 </div>
+
+                <div className="flex items-center gap-2">
+                    <Label>Período</Label>
+                    <DatePickerWithRange date={dateRanger} onDateChange={setDateRanger}/>
+                </div>
             </CardHeader>
             <CardContent>
+                {chartDate && (
                 <ResponsiveContainer width="100%" height={240}>
-                    <LineChart data={data} style={{fontSize: 12}}>
+                    <LineChart data={chartDate} style={{fontSize: 12}}>
                         <XAxis dataKey="date" tickLine={false} axisLine={false} dy={16}/>
 
-                        <YAxis stroke="#888" width={80} axisLine={false} tickLine={false} tickFormatter={(value: number) => {
-                            return value.toLocaleString('pt-BR', {
-                                style: 'currency',
-                                currency: 'BRL',
-                            })
-                        }
+                        <YAxis stroke="#888" 
+                            width={80} 
+                            axisLine={false} 
+                            tickLine={false} 
+                            tickFormatter={(value: number) => {
+                                return value.toLocaleString('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL',
+                                })
+                            }
                         }/>
                         <CartesianGrid vertical={false} className="stroke-muted"/>
-                        <Line type="linear" strokeWidth={2} dataKey="revenue" stroke={colors.violet['500']}/>
+                        <Line 
+                        type="linear" 
+                        strokeWidth={2} 
+                        dataKey="receipt" 
+                        stroke={colors.violet['500']}/>
 
           
                     </LineChart>
                 </ResponsiveContainer>
+        )}
             </CardContent>
         </Card>
     )

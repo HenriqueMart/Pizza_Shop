@@ -7,6 +7,8 @@ import {useForm} from 'react-hook-form';
 import { registry } from "zod/v4/core";
 import {z} from 'zod'
 import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { registerRestaurant } from "@/api/register-restaurant";
 
 const signUpForm = z.object({
     restaurantName: z.string(),
@@ -20,15 +22,26 @@ type SignUpForm = z.infer<typeof signUpForm>; //Passando a tipagem do zod para o
 export function SignUp(){
     const {register, handleSubmit, formState: {isSubmitting}} = useForm<SignUpForm>();
 
+    const {mutateAsync: registerRestaurantFn} = useMutation({
+        mutationFn: registerRestaurant,
+    })
+
     const Navigate = useNavigate(); //Todas as vezes que eu precisar de redirecionar um usuário, utilizo esse Hook
 
     async function handleSignUp(data: SignUpForm){
         try {
 
-            await new Promise(resolver => setTimeout(resolver, 2000));
-            toast.success('Restaurante Cadastrado com Sucesso!', { action: {
+            await registerRestaurantFn({
+                restaurantName: data.restaurantName,
+                managerName: data.managerName,
+                email: data.email,
+                phone: data.phone
+            })
+
+             toast.success('Restaurante Cadastrado com sucesso!.', { 
+                action: {
                 label: 'Login',
-                onClick: () => Navigate('/sign-in'),
+                onClick: () => Navigate(`/sign-in?email=${data.email}`),
             }});
         }catch(err){
             toast.error('Erro ao Cadastrar Restaurante.');
